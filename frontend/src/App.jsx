@@ -268,6 +268,7 @@ export default function App() {
               예상 매출부터 전략까지, 창업 성공의 로드맵
             </p>
             <form className="form" onSubmit={handleSubmit}>
+              <hr className="divider" />
               <div className="field-row">
                 <label className="field-label">지역</label>
                 <input name="dong" className="input" placeholder="예: 역삼1동" list="dong-list" defaultValue={dongName} />
