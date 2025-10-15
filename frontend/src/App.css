@@ -611,28 +611,37 @@ body, html, #root {
 }
 
 /* === Print only layout === */
+.print-only { display: none; }
+
 @media print {
   /* 용지/여백 */
   @page { size: A4 portrait; margin: 12mm; }
 
   html, body, #root, .app-root { background: #fff !important; }
 
-  /* 화면용 요소 숨기기 */
+
+@media print {
   .landing-wrap,
   .score-info,
-  .info-link
+  .info-link,
   .actions,
-  .map-row, 
+  .map-row,
   .action-buttons,
-  .table-action-btn, 
-  .score-popover 
-  { display: none !important; }
+  .table-action-btn,
+  .score-popover,
+  .revenue-card .insight-header:not(.print-only),
+  .revenue-card .insight-body:not(.print-only) {
+    display: none !important;
+  }
+}
+
+
 
   /* 대시보드 컨테이너 폭/여백 재정의 */
   .dashboard {
     max-width: none !important;
-    width: 186mm !important;     /* A4(210mm) - 좌우 12mm 여백 ≈ 186mm */
-    margin: 0 auto !important;   /* 가운데 정렬 */
+    width: 186mm !important;
+    margin: 0 auto !important;
     padding: 0 !important;
     box-shadow: none !important;
   }
@@ -642,8 +651,8 @@ body, html, #root {
   .grid.two,
   .grid.equal-height {
     display: grid !important;
-    grid-template-columns: 1fr !important;  /* 단일 컬럼 */
-    gap: 10mm !important;                   /* 섹션 간격 */
+    grid-template-columns: 1fr !important;
+    gap: 10mm !important;
   }
 
   /* 지도 섹션 숨김 */
@@ -654,8 +663,8 @@ body, html, #root {
   .insight-panel {
     box-shadow: none !important;
     border: 1px solid #ddd !important;
-    padding: 12mm !important;               /* 인쇄용 내부 여백 */
-    break-inside: avoid;                    /* 페이지 중간 분리 방지 */
+    padding: 12mm !important;
+    break-inside: avoid;
     page-break-inside: avoid;
   }
 
