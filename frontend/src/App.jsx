@@ -391,6 +391,31 @@ export default function App() {
                       ))}
                   </ul>) : (<p className="muted">분석 데이터를 불러오는 중입니다...</p>)}
                 </div>
+                {shapInsight && (
+            <>
+              <div className="insight-header print-only">
+                <button type="button" className="chip active">강점 요소</button>
+             </div>
+              <div className="insight-body print-only">
+               <ul className="bullet-list">
+                 {shapInsight.strengths.map((item, i) => (
+                    <li key={`s-${i}`}>{item.trim()}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="insight-header print-only">
+               <button type="button" className="chip active">약점 요소</button>
+             </div>
+             <div className="insight-body print-only">
+               <ul className="bullet-list">
+                 {shapInsight.weaknesses.map((item, i) => (
+                    <li key={`w-${i}`}>{item.trim()}</li>
+                  ))}
+               </ul>
+             </div>
+           </>
+          )}
               </div>
             </div>
             <div className="grid equal-height narrow-gap">
