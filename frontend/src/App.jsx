@@ -308,61 +308,6 @@ export default function App() {
             </div>
 
             <div className="grid two equal-height">
-              <div className="card donut-card">
-                <h3 className="donut-title">종합 점수</h3>
-                <div className="donut" style={donutStyle}>
-                  <div className="donut-hole"><span>{cbs} 점</span></div>
-                </div>
-                {avgScores && <p className="average-note">서울시 외식업군 전체 평균: {avgScores.avg_cbs_score_seoul.toLocaleString()}점</p>}
-                <div className="score-info">
-                  <button type="button" className="info-link" onClick={() => setOpenScoreInfo(v => !v)}>ⓘ 자세히</button>
-                </div>
-                {openScoreInfo && (
-                  <div className="score-popover" role="dialog" aria-label="점수 산정 기준">
-                    <div className="score-popover-head">
-                      <b>점수 산정 기준</b>
-                      <button
-                        className="score-popover-close"
-                        onClick={() => setOpenScoreInfo(false)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-
-                    <p className="formula">
-                      CBS 점수 = (점포당 매출 금액 × <b>{WEIGHTS.점포당_매출_금액}</b>) +
-                      (안정성 지수 × <b>{WEIGHTS.안정성_지수}</b>) + <br />
-                      (성장성 지수 × <b>{WEIGHTS.성장성_지수}</b>) +
-                      (입지 우위 지수 × <b>{WEIGHTS.입지_우위_지수}</b>)
-                    </p>
-
-                    <table className="table compact">
-                      <thead>
-                        <tr><th>요소</th><th>가중치</th><th>설명</th></tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>점포당 매출 금액</td><td>35%</td><td>동·업종 단위의 평균 매출</td></tr>
-                        <tr><td>안정성 지수</td><td>25%</td><td>폐업률, 변동성 등 리스크</td></tr>
-                        <tr><td>성장성 지수</td><td>20%</td><td>최근 3년간 매출 추세</td></tr>
-                        <tr><td>입지 우위 지수</td><td>20%</td><td>유동·접근성·경쟁 밀도</td></tr>
-                      </tbody>
-                    </table>
-
-                    <p className="muted small">
-                      ※ 데이터는 주기적으로 업데이트되며, 가중치는 모델에 따라 조정될 수 있습니다.
-                    </p>
-                  </div>
-                )}
-                <hr className="insight-divider" />
-                <div className="insight-header">
-                  <button type="button" className="chip active">CBS 점수 결정 요인</button>
-                </div>
-                <div className="insight-body">
-                  {shapInsight ? (<ul className="bullet-list">
-                      {shapInsight.cbs.map((item, index) => (<li key={index}>{item.trim()}</li>))}
-                  </ul>) : (<p className="muted">분석 데이터를 불러오는 중입니다...</p>)}
-                </div>
-              </div>
               <div className="card revenue-card">
                 <div className="revenue-header">
                   <h3>월 매출 예측</h3>
@@ -387,35 +332,90 @@ export default function App() {
                 <div className="insight-body">
                   {shapInsight ? (<ul className="bullet-list">
                       {(activeInsight === 'strength' ? shapInsight.strengths : shapInsight.weaknesses).map((item, index) => (
-                        <li key={index}>{item.trim()}</li>
+                        <li key={index}>{item.replace(/_/g, " ").trim()}</li>
                       ))}
                   </ul>) : (<p className="muted">분석 데이터를 불러오는 중입니다...</p>)}
                 </div>
                 {shapInsight && (
-            <>
-              <div className="insight-header print-only">
-                <button type="button" className="chip active">강점 요소</button>
-             </div>
-              <div className="insight-body print-only">
-               <ul className="bullet-list">
-                 {shapInsight.strengths.map((item, i) => (
-                    <li key={`s-${i}`}>{item.trim()}</li>
-                  ))}
-                </ul>
-              </div>
+                  <>
+                    <div className="insight-header print-only">
+                      <button type="button" className="chip active">강점 요소</button>
+                  </div>
+                    <div className="insight-body print-only">
+                    <ul className="bullet-list">
+                      {shapInsight.strengths.map((item, i) => (
+                          <li key={`s-${i}`}>{item.replace(/_/g, " ").trim()}</li>
+                        ))}
+                      </ul>
+                    </div>
 
-              <div className="insight-header print-only">
-               <button type="button" className="chip active">약점 요소</button>
-             </div>
-             <div className="insight-body print-only">
-               <ul className="bullet-list">
-                 {shapInsight.weaknesses.map((item, i) => (
-                    <li key={`w-${i}`}>{item.trim()}</li>
-                  ))}
-               </ul>
-             </div>
-           </>
-          )}
+                    <div className="insight-header print-only">
+                    <button type="button" className="chip active">약점 요소</button>
+                  </div>
+                  <div className="insight-body print-only">
+                    <ul className="bullet-list">
+                      {shapInsight.weaknesses.map((item, i) => (
+                          <li key={`w-${i}`}>{item.trim()}</li>
+                        ))}
+                    </ul>
+                  </div>
+                </>
+                )}
+              </div>              
+              <div className="card donut-card">
+                <h3 className="donut-title">종합 점수</h3>
+                <div className="donut" style={donutStyle}>
+                  <div className="donut-hole"><span>{cbs} 점</span></div>
+                </div>
+                {avgScores && <p className="average-note">서울시 외식업군 전체 평균: {avgScores.avg_cbs_score_seoul.toLocaleString()}점</p>}
+                <div className="score-info">
+                  <button type="button" className="info-link" onClick={() => setOpenScoreInfo(v => !v)}>ⓘ 자세히</button>
+                </div>
+                {openScoreInfo && (
+                  <div className="score-popover" role="dialog" aria-label="점수 산정 기준">
+                    <div className="score-popover-head">
+                      <b>점수 산정 기준</b>
+                      <button
+                        className="score-popover-close"
+                        onClick={() => setOpenScoreInfo(false)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <p className="formula">
+                      CBS 점수 = (점포당 매출 금액 × <b>{WEIGHTS.점포당_매출_금액}</b>) +
+                      (안정성 지수 × <b>{WEIGHTS.안정성_지수}</b>) +
+                      (성장성 지수 × <b>{WEIGHTS.성장성_지수}</b>) +
+                      (입지 우위 지수 × <b>{WEIGHTS.입지_우위_지수}</b>)
+                    </p>
+
+                    <table className="table compact">
+                      <thead>
+                        <tr><th>요소</th><th>가중치</th><th>설명</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>점포당 매출 금액</td><td>35%</td><td>동·업종 단위의 평균 매출</td></tr>
+                        <tr><td>안정성 지수</td><td>25%</td><td>폐업률, 변동성 등 리스크</td></tr>
+                        <tr><td>성장성 지수</td><td>20%</td><td>최근 3년간 매출 추세</td></tr>
+                        <tr><td>입지 우위 지수</td><td>20%</td><td>유동·접근성·경쟁 밀도</td></tr>
+                      </tbody>
+                    </table>
+
+                    <p className="muted small">
+                      ※ 데이터는 정기적으로 갱신되며, 가중치는 모델에 따라 조정될 수 있습니다.
+                    </p>
+                  </div>
+                )}
+                <hr className="insight-divider" />
+                <div className="insight-header">
+                  <button type="button" className="chip active">CBS 점수 결정 요인</button>
+                </div>
+                <div className="insight-body">
+                  {shapInsight ? (<ul className="bullet-list">
+                      {shapInsight.cbs.map((item, index) => (<li key={index}>{item.replace(/_/g, " ").trim()}</li>))}
+                  </ul>) : (<p className="muted">분석 데이터를 불러오는 중입니다...</p>)}
+                </div>
               </div>
             </div>
             <div className="grid equal-height narrow-gap">
