@@ -190,6 +190,7 @@ body, html, #root {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .score-popover-head b {
@@ -285,7 +286,6 @@ body, html, #root {
   color: #999;
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid #f0f0f0;
 }
 
 @keyframes popIn {
